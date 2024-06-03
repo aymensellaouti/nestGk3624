@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Todo, TodoStatusEnum } from './model/todo.model';
-
+import { v4 as uuidv4 } from 'uuid';
 @Controller('todo')
 export class TodoController {
     todos: Todo[] = [
@@ -11,10 +11,8 @@ export class TodoController {
     getTodos(): Todo[] {
         return this.todos;
     }
-
-    
     @Post()
-    addTodo() {
+    addTodo(@Body() body) {
       /**
        * Todo :
        * 1- installer la bibliotheque uuid
@@ -24,5 +22,13 @@ export class TodoController {
        *  2-3 Ajouter le todo 
        *  2-4 Retourner le nouveau Todo 
        */
+      const newTodo: Todo = {
+        id: uuidv4(),
+        createdAt: new Date(),
+        status: TodoStatusEnum.waiting,
+        ...body,
+      };
+      this.todos.push(newTodo);
+      return newTodo;
     }
 }
