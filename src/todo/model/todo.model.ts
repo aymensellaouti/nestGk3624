@@ -5,11 +5,9 @@ export enum TodoStatusEnum {
   'waiting' = 'En attente',
   'done' = 'Finalisé',
 }
-
-
 export class Todo {
   constructor(
-    public id = 0,
+    public id = '',
     public name = '',
     public description = '',
     public status: TodoStatusEnum,
